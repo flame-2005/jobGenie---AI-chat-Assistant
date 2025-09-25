@@ -81,24 +81,6 @@ export default function ResumeForm(): JSX.Element {
     }
   }
 
-  function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>): void {
-    const file = e.target.files?.[0];
-    if (file) {
-      const allowedTypes: string[] = [
-        'application/pdf', 
-        'application/msword', 
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ];
-      
-      if (allowedTypes.includes(file.type)) {
-        parseResumeFile(file);
-      } else {
-        setUploadStatus("Please upload a PDF or Word document.");
-        setTimeout(() => setUploadStatus(""), 3000);
-      }
-    }
-  }
-
   async function handleSubmit(): Promise<void> {
     setIsSubmitting(true);
     
