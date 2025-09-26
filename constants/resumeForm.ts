@@ -31,6 +31,7 @@ export interface FormData {
   experience: ExperienceEntry[];
   projects: ProjectEntry[];
   education: EducationEntry[];
+  userId?:string
 }
 
 export interface ParsedResumeData {

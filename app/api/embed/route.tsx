@@ -49,6 +49,8 @@ export async function POST(req: Request) {
         const resume = await req.json();
         const userId = resume.userId || "default-user";
 
+        console.log(resume.userId)
+
         const textToEmbed = serializeResume(resume);
 
         // ✅ Enhanced error handling for Gemini API
@@ -98,7 +100,7 @@ export async function POST(req: Request) {
                     education: (resume.education || [])
                         .map(
                             (edu: EducationEntry) =>
-                                `${edu.degree} from ${edu.institution} (${edu.startDate}-${edu.endDate})` // ✅ Fixed: Consistent properties
+                                `${edu.degree} from ${edu.institution} (${edu.startDate}-${edu.endDate})`
                         )
                         .join(" | "),
                     projects: (resume.projects || [])
@@ -106,7 +108,7 @@ export async function POST(req: Request) {
                             (proj: ProjectEntry) =>
                                 `${proj.name}: ${proj.description}`
                         )
-                        .join(" | ") // ✅ Added: Projects metadata for better searchability
+                        .join(" | ") ,
                 }
             },
         ]);

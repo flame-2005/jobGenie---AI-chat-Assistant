@@ -16,9 +16,8 @@ export default function Home() {
       console.error("Sign out failed:", error);
     }
   };
-
   useEffect(() => {
-    if (!loading && !user) {
+    if ((!user ) && !loading) {
       router.push("/login"); // Redirect to login if not logged in
     }
   }, [user, loading, router]);
@@ -34,7 +33,8 @@ export default function Home() {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold underline">Hello, {user.email}!</h1>
+        <h1 className="text-3xl font-bold underline">Welcome to best AI assistant for all you job needs
+        </h1>
         <button
           onClick={handleSignOut}
           className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"

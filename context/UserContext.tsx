@@ -17,23 +17,23 @@ type ConvexUser = {
 
 type UserContextType = {
   user: User | null;
-  convexUser: ConvexUser | undefined;
+  userData: ConvexUser | undefined;
   loading: boolean;
   signOut: () => Promise<void>;
 };
 
 const UserContext = createContext<UserContextType>({
   user: null,
-  convexUser: undefined,
+  userData: undefined,
   loading: true,
-  signOut: async () => {},
+  signOut: async () => { },
 });
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<ConvexUser>();
 
-  // 1️⃣ Listen to Supabase Auth
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
@@ -51,8 +51,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const convexUser = useQuery(
     api.user.getUser,
-    user ? { email: user.email! } : "skip"
+    user?.email ? { email: user.email } : "skip"
   );
+
+  useEffect(() => {
+    if(convexUser){
+      setUserData(convexUser)
+    }
+  }, [convexUser])
+  
+
 
   const signOut = async () => {
     setLoading(true);
@@ -67,7 +75,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <UserContext.Provider value={{ user, convexUser, loading, signOut }}>
+    <UserContext.Provider value={{ user, userData, loading, signOut }}>
       {children}
     </UserContext.Provider>
   );

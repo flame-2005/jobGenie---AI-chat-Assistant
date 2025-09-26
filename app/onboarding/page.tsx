@@ -5,19 +5,19 @@ import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
 import { api } from "../../convex/_generated/api";
 import { useUserContext } from "@/context/UserContext";
-import { ResumeForm } from "../resume/page";
+import { ResumeForm } from "@/components/resumeForm/Resume";
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user, convexUser, loading } = useUserContext();
+  const { user, userData, loading } = useUserContext();
   const setOnboarded = useMutation(api.user.setOnboarded);
 
   // Redirect if user is already onboarded
   useEffect(() => {
-    if (!loading && user && convexUser?.isOnboarded) {
+    if (!loading && user && userData?.isOnboarded) {
       router.push("/"); // Already onboarded → go to home
     }
-  }, [user, convexUser, loading, router]);
+  }, [user, userData, loading, router]);
 
   const handleCompleteOnboarding = async () => {
     if (!user?.email) {

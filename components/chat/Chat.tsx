@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Send, Bot, User } from "lucide-react";
+import { useUserContext } from "@/context/UserContext";
 
 // Circular Loader Component
 function CircularLoader() {
@@ -19,6 +20,7 @@ export default function Chat() {
     const [messages, setMessages] = useState<{ role: string; text: string }[]>([]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
+    const {userData} = useUserContext()
 
     async function sendMessage() {
         if (!input.trim()) return;
@@ -26,11 +28,12 @@ export default function Chat() {
         setMessages((prev) => [...prev, userMessage]);
         setLoading(true);
 
+
         try {
             const res = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query: input, userId: "default-user" }),
+                body: JSON.stringify({ query: input, userId: userData?.username }),
             });
 
             const data = await res.json();
