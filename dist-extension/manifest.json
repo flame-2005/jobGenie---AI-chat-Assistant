@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "JobGenie AI Chat", 
+  "name": "JobGenie AI Chat",
   "version": "1.0.0",
   "description": "AI-powered chat assistant",
   "permissions": ["activeTab"],
-  "host_permissions": ["http://localhost:*/*"],
+  "host_permissions": ["https://job-genie-ai-chat-assistant.vercel.app/*"],
   "action": {
     "default_popup": "popup.html",
     "default_title": "JobGenie AI Chat"

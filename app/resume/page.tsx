@@ -7,7 +7,12 @@ import {ParsedResumeData } from "@/constants/resumeForm";
 import type { FormData } from "@/constants/resumeForm";
 import ArraySection from "@/components/resumeForm/arraySection";
 
-export default function ResumeForm(): JSX.Element {
+type ResumeFormProps = {
+  handleCompleteOnboarding?: () => void
+}
+
+export const ResumeForm: React.FC<ResumeFormProps> = ({handleCompleteOnboarding}) => {
+
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -94,6 +99,9 @@ export default function ResumeForm(): JSX.Element {
       if (response.ok) {
         setUploadStatus("Resume saved & embedded successfully! ✓");
         setTimeout(() => setUploadStatus(""), 3000);
+        if(handleCompleteOnboarding){
+          handleCompleteOnboarding()
+        }
       } else {
         setUploadStatus("Something went wrong.");
         setTimeout(() => setUploadStatus(""), 3000);
