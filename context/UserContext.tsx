@@ -32,7 +32,6 @@ const UserContext = createContext<UserContextType>({
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState<ConvexUser>();
 
   useEffect(() => {
     const getUser = async () => {
@@ -49,16 +48,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  const convexUser = useQuery(
+  const userData = useQuery(
     api.user.getUser,
     user?.email ? { email: user.email } : "skip"
   );
-
-  useEffect(() => {
-    if(convexUser){
-      setUserData(convexUser)
-    }
-  }, [convexUser])
   
 
 

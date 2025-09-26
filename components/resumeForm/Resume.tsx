@@ -1,5 +1,5 @@
 "use client";
-import { JSX, useContext, useState } from "react";
+import { JSX, useContext, useEffect, useState } from "react";
 import { User, Mail, Phone, Briefcase, FileText, Code, Award, GraduationCap, Rocket, Upload, Plus, Trash2, AlertCircle } from "lucide-react";
 import InputField from "@/components/resumeForm/inputField";
 import { SelectField } from "@/components/resumeForm/seletionField";
@@ -29,6 +29,13 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({handleCompleteOnboarding}
     education: [{ degree: "", institution: "", year: "", gpa: "" }],
     userId:userData?.username
   });
+
+  useEffect(() => {
+    if(userData){
+      setFormData({...formData,userId:userData?.username})
+    }
+  }, [userData])
+  
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [activeField, setActiveField] = useState<string>("");
@@ -74,7 +81,7 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({handleCompleteOnboarding}
           education: parsedData.education && parsedData.education.length > 0 
             ? parsedData.education 
             : prevData.education,
-        userId:userData?._id
+        userId:userData?.username
         }));
         
         setUploadStatus("Resume parsed successfully! ✓");
