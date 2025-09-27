@@ -30,7 +30,7 @@ export default function Chat() {
 
 
         try {
-            const res = await fetch("/api/chat", {
+            const res = await fetch(process.env.MODE == 'WEBAPP'? "/api/chat" : "https://job-genie-ai-chat-assistant.vercel.app/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ query: input, userId: userData?.username }),

@@ -34,6 +34,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/chrome": "^0.1.12",
     "@types/node": "^20.19.17",
     "@types/pdf-parse": "^1.1.1",
     "@types/react": "^19.1.13",

@@ -3,8 +3,11 @@
   "name": "JobGenie AI Chat",
   "version": "1.0.0",
   "description": "AI-powered chat assistant",
-  "permissions": ["activeTab"],
-  "host_permissions": ["https://job-genie-ai-chat-assistant.vercel.app/*"],
+  "permissions": ["storage", "cookies", "tabs", "activeTab"],
+  "host_permissions": [
+    "https://job-genie-ai-chat-assistant.vercel.app/*",
+    "https://*.supabase.co/*"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_title": "JobGenie AI Chat"

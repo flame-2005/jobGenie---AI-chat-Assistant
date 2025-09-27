@@ -99,7 +99,55 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({handleCompleteOnboarding}
     }
   }
 
+  function validateRequiredFields(): { isValid: boolean; missingFields: string[] } {
+    const missingFields: string[] = [];
+    
+    // Check basic required fields
+    if (!formData.name.trim()) missingFields.push("Full Name");
+    if (!formData.email.trim()) missingFields.push("Email Address");
+    if (!formData.role.trim()) missingFields.push("Professional Role");
+    if (!formData.summary.trim()) missingFields.push("Professional Summary");
+    if (!formData.skills.trim()) missingFields.push("Skills");
+    
+    // Check experience required fields
+    const hasValidExperience = formData.experience.some(exp => 
+      exp.company.trim() && exp.position.trim() && exp.duration.trim()
+    );
+    if (!hasValidExperience) {
+      missingFields.push("At least one complete Work Experience (Company, Position, Duration)");
+    }
+    
+    // Check projects required fields
+    const hasValidProject = formData.projects.some(proj => 
+      proj.title.trim()
+    );
+    if (!hasValidProject) {
+      missingFields.push("At least one Project Title");
+    }
+    
+    // Check education required fields
+    const hasValidEducation = formData.education.some(edu => 
+      edu.degree.trim() && edu.institution.trim() && edu.year.trim()
+    );
+    if (!hasValidEducation) {
+      missingFields.push("At least one complete Education (Degree, Institution, Year)");
+    }
+    
+    return {
+      isValid: missingFields.length === 0,
+      missingFields
+    };
+  }
+
   async function handleSubmit(): Promise<void> {
+    const validation = validateRequiredFields();
+    
+    if (!validation.isValid) {
+      const missingFieldsList = validation.missingFields.join('\n• ');
+      alert(`Please fill in the following required fields:\n\n• ${missingFieldsList}`);
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
@@ -204,8 +252,8 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({handleCompleteOnboarding}
             <User size={16} className="mr-2" />
             Personal Information
           </h2>
-          <InputField icon={User} name="name" placeholder="Full Name" activeField={activeField} setActiveField={setActiveField} value={formData.name} onChange={handleChange} />
-          <InputField icon={Mail} name="email" placeholder="Email Address" type="email" activeField={activeField} setActiveField={setActiveField} value={formData.email} onChange={handleChange} />
+          <InputField icon={User} name="name" placeholder="Full Name *" activeField={activeField} setActiveField={setActiveField} value={formData.name} onChange={handleChange} />
+          <InputField icon={Mail} name="email" placeholder="Email Address *" type="email" activeField={activeField} setActiveField={setActiveField} value={formData.email} onChange={handleChange} />
           <InputField icon={Phone} name="phone" placeholder="Phone Number" activeField={activeField} setActiveField={setActiveField} value={formData.phone} onChange={handleChange} />
         </div>
 
@@ -216,7 +264,7 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({handleCompleteOnboarding}
             Professional Role
           </h2>
           <SelectField icon={Briefcase} name="role" placeholder={formData.role} onChange={handleChange}>
-            <option value="">Select Your Role</option>
+            <option value="">Select Your Role *</option>
             <option value="frontend">🎨 Frontend Engineer</option>
             <option value="backend">⚙️ Backend Engineer</option>
             <option value="fullstack">🚀 Full Stack Engineer</option>
@@ -236,8 +284,8 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({handleCompleteOnboarding}
             <FileText size={16} className="mr-2" />
             Professional Summary
           </h2>
-          <InputField icon={FileText} name="summary" placeholder="Brief professional summary..." rows={3}  activeField="summary" setActiveField={setActiveField} value={formData.summary} onChange={handleChange} />
-          <InputField icon={Code} name="skills" placeholder="Skills (comma separated)" rows={2}  activeField="skills" setActiveField={setActiveField} value={formData.skills} onChange={handleChange} />
+          <InputField icon={FileText} name="summary" placeholder="Brief professional summary... *" rows={3}  activeField="summary" setActiveField={setActiveField} value={formData.summary} onChange={handleChange} />
+          <InputField icon={Code} name="skills" placeholder="Skills (comma separated) *" rows={2}  activeField="skills" setActiveField={setActiveField} value={formData.skills} onChange={handleChange} />
         </div>
 
         {/* Experience Section */}
@@ -247,9 +295,9 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({handleCompleteOnboarding}
           icon={Briefcase}
           addLabel="Experience"
           fields={[
-            { name: 'company', placeholder: 'Company Name' },
-            { name: 'position', placeholder: 'Job Title/Position' },
-            { name: 'duration', placeholder: 'Duration (e.g., Jan 2022 - Present)' },
+            { name: 'company', placeholder: 'Company Name *' },
+            { name: 'position', placeholder: 'Job Title/Position *' },
+            { name: 'duration', placeholder: 'Duration (e.g., Jan 2022 - Present) *' },
             { name: 'description', placeholder: 'Job description and achievements...', type: 'textarea', rows: 3 }
           ]}
           formData={formData}
@@ -263,7 +311,7 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({handleCompleteOnboarding}
           icon={Rocket}
           addLabel="Project"
           fields={[
-            { name: 'title', placeholder: 'Project Title' },
+            { name: 'title', placeholder: 'Project Title *' },
             { name: 'description', placeholder: 'Project description and impact...', type: 'textarea', rows: 2 },
             { name: 'technologies', placeholder: 'Technologies used (comma separated)' }
           ]}
@@ -278,9 +326,9 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({handleCompleteOnboarding}
           icon={GraduationCap}
           addLabel="Education"
           fields={[
-            { name: 'degree', placeholder: 'Degree (e.g., Bachelor of Computer Science)' },
-            { name: 'institution', placeholder: 'University/Institution' },
-            { name: 'year', placeholder: 'Graduation Year' },
+            { name: 'degree', placeholder: 'Degree (e.g., Bachelor of Computer Science) *' },
+            { name: 'institution', placeholder: 'University/Institution *' },
+            { name: 'year', placeholder: 'Graduation Year *' },
             { name: 'gpa', placeholder: 'GPA (optional)' }
           ]}
           formData={formData}
