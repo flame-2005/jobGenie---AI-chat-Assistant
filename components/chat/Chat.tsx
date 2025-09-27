@@ -57,8 +57,8 @@ export default function Chat() {
     }
 
     return (
-        <div className="bg-gradient-to-br from-slate-50 to-blue-50 p-4 overflow-y-auto max-h-[100%] min-h-[100%]">
-            <div className="max-w-4xl mx-auto">
+        <div className="bg-gradient-to-br from-slate-50 to-blue-50 overflow-y-auto max-h-[100%] min-h-[100%]">
+            <div className="mx-auto">
                 {/* Header */}
                 <div className="text-center mb-6">
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
